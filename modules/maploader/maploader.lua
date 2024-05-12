@@ -2,7 +2,9 @@ maploader = {}
 
 maploader.load = function(map)
     if map ~= maps.empty and map ~= maps.grove then
-
+        error("Invalid map.")
+        
+        return
     end
     for x=1, #map do
         for y=1, #map[x] do
