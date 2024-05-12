@@ -1,6 +1,6 @@
 maploader = {}
 
-maps = HTTP:Get("https://raw.githubusercontent.com/Nanskipp/cube-arena/main/data/maps.json", function(res)
+loadMaps = HTTP:Get("https://raw.githubusercontent.com/Nanskipp/cube-arena/main/data/maps.json", function(res)
     if res.StatusCode ~= 200 then
         error("Error on loading maps. Code: " .. res.StatusCode)
         return
@@ -25,7 +25,7 @@ load = function(map)
             elseif map[x][y] == 3 then
                 block.Color = Color(235, 200, 106)
             end
-
+            
             local getblock = Map:GetBlock(Number3(x, 0, y))
             if getblock ~= nil then getblock:Remove() end
             Map:AddBlock(block)
