@@ -1,0 +1,3 @@
+player = {}
+
+return player
