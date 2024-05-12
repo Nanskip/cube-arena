@@ -26,4 +26,15 @@ maploader.load = function(map)
     end
 end
 
+maploader.loadmaps = function()
+    HTTP:Get("https://raw.githubusercontent.com/Nanskipp/cube-arena/main/data/maps.json", function(res)
+        if res.StatusCode ~= 200 then
+            error("Error on loading maps. Code: " .. res.StatusCode)
+            return
+        end
+        
+        maps = JSON:Decode(res.Body)
+    end)
+end
+
 return maploader

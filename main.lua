@@ -1,29 +1,83 @@
 Config = {
-    Map = "nanskip.v",
-    Items = "nanskip.ca_bullet"
+    Items = {
+        "nanskip.v"
+    }
 }
 
-Modules = {
-    maploader = "github.com/Nanskipp/cube-arena/modules/maploader:47bf11d",
-    player = "github.com/Nanskipp/cube-arena/modules/player:0eedb26",
-}
-
-Client.OnStart = function()
-    loadMaps()
+start = function()
+    Camera:SetParent(World)
+    
+    maploader.loadmaps()
 end
 
-Client.Tick = function(dt)
+tick = function()
     
 end
 
-loadMaps = function()
-    HTTP:Get("https://raw.githubusercontent.com/Nanskipp/cube-arena/main/data/maps.json", function(res)
+Client.OnStart = function()
+    ui = require("uikit")
+    loadingScreen.show()
+    Camera:SetParent(nil)
+    githubScriptsCount = 0
+    loadGitHub()
+end
+
+Client.Tick = function(dt)
+    deltaTime = 62/(1/dt)
+    if githubScriptsCount == loadCount then
+        loadingScreen:hide()
+        start()
+        githubScriptsCount = nil
+    elseif githubScriptsCount == nil then
+        tick()
+    end
+end
+
+-- load everything
+loadGitHub = function()
+    loadCount = 2
+    
+    maploader = loadFromGitHub("modules/maploader.lua", true)
+    player = loadFromGitHub("modules/player.lua", true)
+end
+
+-- loading function
+loadFromGitHub = function(url, isCode)
+    url = "https://raw.githubusercontent.com/Nanskipp/cube-arena/main/" .. url
+    local fileName = url:match("[^/]-$")
+    loadingText.Text = "Loading: " .. fileName
+    local ret = HTTP:Get(url, function(res)
         if res.StatusCode ~= 200 then
-            error("Error on loading maps. Code: " .. res.StatusCode)
+            print("Error on " .. fileName .." loading. Code: " .. res.StatusCode)
             return
         end
-        
-        maps = JSON:Decode(res.Body)
-        print(maps)
-    end)
+        local obj = load(res.Body:ToString(), nil, "bt", _ENV)
+
+        githubScriptsCount = githubScriptsCount + 1
+        if isCode then return obj() else return obj end
+        end)
+    return ret
+end
+
+loadingScreen = {}
+
+loadingScreen.show = function()
+    blackScreen = ui:createFrame(Color(0, 0, 0))
+
+    blackScreen.Width = Screen.Width
+    blackScreen.Height = Screen.Height
+
+    loadingText = ui:createText("Loading: {placeholder}", Color(255, 255, 255))
+    loadingText.pos.X = Screen.Width/2 - loadingText.Width/2
+    loadingText.pos.Y = Screen.Height/2 - loadingText.Height/2
+    loadingText.Tick = function(self)
+        self.pos.X = Screen.Width/2 - self.Width/2
+        self.pos.Y = Screen.Height/2 - self.Height/2
+    end
+end
+
+loadingScreen.hide = function(self)
+    blackScreen:setParent(nil) blackScreen = nil
+    loadingText:setParent(nil) loadingText.Tick = nil loadingText = nil
+    self = nil
 end
