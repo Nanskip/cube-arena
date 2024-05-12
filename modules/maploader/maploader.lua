@@ -1,16 +1,5 @@
 maploader = {}
 
-maploader.loadMaps = function()
-     HTTP:Get("https://raw.githubusercontent.com/Nanskipp/cube-arena/main/data/maps.json", function(res)
-        if res.StatusCode ~= 200 then
-            error("Error on loading maps. Code: " .. res.StatusCode)
-            return
-        end
-        
-        maps = JSON:Decode(res.Body)
-    end)
-end
-
 maploader.load = function(map)
     if map ~= maps.empty and map ~= maps.grove then
 
