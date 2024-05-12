@@ -4,7 +4,7 @@ Config = {
 }
 
 Modules = {
-    maploader = "github.com/Nanskipp/cube-arena/modules/maploader:aed1351",
+    maploader = "github.com/Nanskipp/cube-arena/modules/maploader:47bf11d",
     player = "github.com/Nanskipp/cube-arena/modules/player:0eedb26",
 }
 
