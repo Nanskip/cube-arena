@@ -64,6 +64,7 @@ maploader.load = function(map)
 
                 bush = Shape(Items.nanskip.ca_bush)
                 bushes:AddChild(bush)
+                bush.Physics = PhysicsMode.Trigger
 
                 bush.Position = Number3(x-16, 1, y-16)*5
                 bush.Pivot = Number3(0, 0, 0)
