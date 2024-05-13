@@ -1,7 +1,8 @@
 Config = {
     Items = {
-        "nanskip.v"
-    }
+        "nanskip.v", "nanskip.ca_wall", "nanskip.ca_bush"
+    },
+    Map = "nanskip.v"
 }
 
 start = function()
