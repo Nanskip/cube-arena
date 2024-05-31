@@ -40,6 +40,7 @@ loadGitHub = function()
     
     maploader = loadFromGitHub("modules/maploader.lua", true)
     player = loadFromGitHub("modules/player.lua", true)
+    joysticks = loadFromGitHub("modules/joysticks.lua", true)
 end
 
 -- loading function
