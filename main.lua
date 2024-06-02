@@ -36,7 +36,7 @@ end
 
 -- load everything
 loadGitHub = function()
-    loadCount = 2
+    loadCount = 3
     
     maploader = loadFromGitHub("modules/maploader.lua", true)
     player = loadFromGitHub("modules/player.lua", true)
