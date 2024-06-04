@@ -36,11 +36,12 @@ end
 
 -- load everything
 loadGitHub = function()
-    loadCount = 3
+    loadCount = 4
     
     maploader = loadFromGitHub("modules/maploader.lua", true)
     player = loadFromGitHub("modules/player.lua", true)
     joysticks = loadFromGitHub("modules/joysticks.lua", true)
+    voting = loadFromGitHub("modules/voting.lua", true)
 end
 
 -- loading function
