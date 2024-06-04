@@ -102,7 +102,7 @@ Server.OnStart = function()
         currentVote = {
             name = "Server vote",
             description = "This vote was called by server.",
-            time = 60*60,
+            time = 60*10,
             variants = {
                 {
                     name = "Vote variant 1",
@@ -154,7 +154,7 @@ Server.OnPlayerJoin = function(p)
         callVote()
     end
 
-    Timer(5, false, function()
+    Timer(0, false, function()
         sendVote(player)
         print("Vote sent to " .. player.Username)
     end)
@@ -177,7 +177,7 @@ end
 
 Server.Tick = function(dt)
     local delta = dt*62.5
-    
+
     if currentVote.time ~= nil then
         currentVote.time = currentVote.time - (1*delta)
     end
