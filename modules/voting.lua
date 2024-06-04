@@ -110,9 +110,42 @@ voting.createVote = function(config)
     end
 end
 
+voting.updateVote = function(self)
+    if self == nil then
+        error('voting.updateVote() should be called with ":"!', 3)
+
+        return
+    end
+
+    local vote = self.vote
+
+    vote.background.pos = Number2(Screen.Width/2-(700/2/scale), Screen.Height-(320/scale)-Screen.SafeArea.Top-10)
+    vote.background.size = Number2(700/scale, 320/scale)
+
+    vote.name.object.Scale = Number3(2, 2, 1) / scale
+    vote.name.pos = Number2(Screen.Width/2-(vote.name.Width/2), Screen.Height-Screen.SafeArea.Top-10-(vote.name.Height))
+
+    vote.description.object.Scale = Number3(1, 1, 1)/scale
+    vote.description.pos = Number2(Screen.Width/2-(vote.description.Width/2), Screen.Height-Screen.SafeArea.Top-10-vote.description.Height-vote.name.Height)
+
+    vote.timeCounter.object.Scale = Number3(1, 1, 1)/scale
+    vote.timeCounter.pos = Number2(vote.background.pos.X + vote.background.Width - vote.timeCounter.Width-10/scale, vote.background.pos.Y + vote.background.Height - vote.timeCounter.Height-5/scale)
+
+    for i=1, #config.variants do
+        vote.buttons[i].pos = Number2(10/scale+(i-1)/scale*230+vote.background.pos.X, 10/scale+vote.background.pos.Y)
+        vote.buttons[i].size = Number2(220/scale, 220/scale)
+        
+        vote.buttons[i].text.pos = Number2(vote.buttons[i].pos.X+10/scale, vote.buttons[i].pos.Y+5/scale)
+        vote.buttons[i].text.object.Scale = Number3(1, 1, 1)/scale
+        vote.buttons[i].votes.object.Scale = Number3(1.5, 1.5, 1)/scale
+        vote.buttons[i].votes.pos = Number2(vote.buttons[i].pos.X+vote.buttons[i].Width-(vote.buttons[i].votes.Width+10)/scale, vote.buttons[i].pos.Y+5/scale)
+        vote.buttons[i].var = i
+    end
+end
+
 voting.remove = function(self)
     if self ~= voting then
-        error('voting.remove() should be called with ":"!')
+        error('voting.remove() should be called with ":"!', 3)
 
         return
     end

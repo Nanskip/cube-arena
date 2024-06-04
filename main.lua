@@ -34,6 +34,10 @@ Client.Tick = function(dt)
     end
 end
 
+Screen.DidResize = function()
+    voting:updateVote()
+end
+
 -- load everything
 loadGitHub = function()
     loadCount = 4
@@ -163,10 +167,7 @@ Server.OnPlayerJoin = function(p)
         callVote()
     end
 
-    Timer(0, false, function()
-        sendVote(player)
-        print("Vote sent to " .. player.Username)
-    end)
+    sendVote(Players)
 end
 
 Server.DidReceiveEvent = function(event)
