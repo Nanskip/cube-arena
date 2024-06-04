@@ -4,6 +4,7 @@ voting.start = function(config)
     local defaultConfig = {
         name = "NIL VOTING",
         description = "Nil description.",
+        time = 60*60,
         variants = {
             {
                 name = "Nil variant1",
@@ -47,6 +48,7 @@ voting.createVote = function(config)
 
     voting.vote = Object()
     local vote = voting.vote
+    vote.time = config.time
     vote.background = ui:createFrame(Color(0, 0, 0, 0.6))
     vote.background.pos = Number2(Screen.Width/2-(700/2/scale), Screen.Height-(320/scale)-Screen.SafeArea.Top-10)
     vote.background.size = Number2(700/scale, 320/scale)
@@ -58,6 +60,17 @@ voting.createVote = function(config)
     vote.description = ui:createText(config.description, Color(200, 200, 200))
     vote.description.object.Scale = Number3(1, 1, 1)/scale
     vote.description.pos = Number2(Screen.Width/2-(vote.description.Width/2), Screen.Height-Screen.SafeArea.Top-10-vote.description.Height-vote.name.Height)
+
+    vote.timeCounter = ui:createText(vote.time//60, Color(255, 255, 0))
+    vote.timeCounter.object.Scale = Number3(1, 1, 1)/scale
+    vote.timeCounter.pos = Number2(vote.background.pos.X + vote.background.Width - vote.timeCounter.Width-10/scale, vote.background.pos.Y + vote.background.Height - vote.timeCounter.Height-5/scale)
+
+    vote.Tick = function(self, dt)
+        local delta = dt*62.5
+        self.time = self.time - 1*delta
+
+        vote.timeCounter.Text = string.format("%.0f", self.time//60)
+    end
 
     vote.buttons = {}
     for i=1, #config.variants do
@@ -110,6 +123,8 @@ voting.remove = function(self)
     voting.vote.name = nil
     voting.vote.description:setParent(nil)
     voting.vote.description = nil
+    voting.vote.timeCounter:setParent(nil)
+    voting.vote.timeCounter = nil
 
     for i=1, #voting.vote.buttons do
         voting.vote.buttons[i].text:setParent(nil)
