@@ -118,6 +118,7 @@ voting.updateVote = function(self)
     end
 
     local vote = self.vote
+    local scale = math.max(0.5, math.min(1920/Screen.Width, 1080/Screen.Height))
 
     vote.background.pos = Number2(Screen.Width/2-(700/2/scale), Screen.Height-(320/scale)-Screen.SafeArea.Top-10)
     vote.background.size = Number2(700/scale, 320/scale)
