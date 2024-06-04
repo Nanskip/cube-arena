@@ -29,6 +29,7 @@ voting.start = function(config)
             config[key] = defaultConfig[key]
         end
     end
+    voting.voted = false
 
     if not currentlyVoting then
         voting.createVote(config)
@@ -73,14 +74,23 @@ voting.createVote = function(config)
         vote.buttons[i].var = i
 
         vote.buttons[i].onPress = function(self)
-            local playSound = AudioSource('button_1')
-            playSound:SetParent(World)
-            playSound:Play()
+            if not voting.voted then
+                voting.voted = true
+                local playSound = AudioSource('button_1')
+                playSound:SetParent(World)
+                playSound:Play()
 
-            local e = Event()
-            e.type = "vote"
-            e.variant = self.var
-            e:SendTo(Server)
+                local e = Event()
+                e.type = "vote"
+                e.variant = self.var
+                e:SendTo(Server)
+
+                for i=1, #vote.buttons do
+                    vote.buttons[i].Color = Color(0, 0, 0, 0.25)
+                    vote.buttons[i].onPress = nil
+                end
+                vote.buttons[i].Color = Color(50, 50, 50, 0.3)
+            end
         end
 
         print("Button #"..i..' created. Name: "'..config.variants[i].name..'".')
