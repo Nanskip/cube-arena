@@ -1,4 +1,4 @@
-local voting = {}
+voting = {}
 
 voting.start = function(config)
     local defaultConfig = {
@@ -115,13 +115,5 @@ voting.remove = function(self)
     voting.vote = nil
     currentlyVoting = false
 end
---[[
-Server.DidReceiveEvent = function(event)
-    if event.type == "vote" then
-        if event.variant ~= nil then
-            print(e.Sender .. " voted for variant " .. e.variant)
-        end
-    end
-end
-]]--
+
 return voting
