@@ -137,6 +137,7 @@ voting.remove = function(self)
     voting.vote.buttons = nil
 
     voting.vote:SetParent(nil)
+    voting.vote.Tick = nil
     voting.vote = nil
     currentlyVoting = false
 end

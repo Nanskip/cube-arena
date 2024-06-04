@@ -177,10 +177,12 @@ end
 
 Server.Tick = function(dt)
     local delta = dt*62.5
+    
+    if currentVote.time ~= nil then
+        currentVote.time = currentVote.time - (1*delta)
+    end
 
-    currentVote.time = currentVote.time - (1*delta)
-
-    if currentVote.time <= 0 then
+    if currentlyVoting and currentVote.time < 0 then
         endVote()
     end
 end
