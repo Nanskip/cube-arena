@@ -134,14 +134,23 @@ Server.OnStart = function()
     end
 
     endVote = function()
+        currentVote.winner = math.random(1, 3)
+        currentVote.winMax = 0
+        for i=1, #currentVote.variants do
+            if currentVote.variants[i].votes > currentVote.winMax then
+                currentVote.winMax = currentVote.variants[i].votes
+                currentVote.winner = i
+            end
+        end
+        print("Vote ended.")
+        print("Variant #" .. currentVote.winner .. " won.")
+
         currentVote = nil
         currentlyVoting = false
 
         local e = Event()
         e.type = "vote end"
         e:SendTo(Players)
-
-        print("Vote ended.")
     end
 end
 
