@@ -132,7 +132,7 @@ voting.updateVote = function(self)
     vote.timeCounter.object.Scale = Number3(1, 1, 1)/scale
     vote.timeCounter.pos = Number2(vote.background.pos.X + vote.background.Width - vote.timeCounter.Width-10/scale, vote.background.pos.Y + vote.background.Height - vote.timeCounter.Height-5/scale)
 
-    for i=1, #config.variants do
+    for i=1, #vote.buttons do
         vote.buttons[i].pos = Number2(10/scale+(i-1)/scale*230+vote.background.pos.X, 10/scale+vote.background.pos.Y)
         vote.buttons[i].size = Number2(220/scale, 220/scale)
         
