@@ -180,7 +180,7 @@ Server.Tick = function(dt)
 
     currentVote.time = currentVote.time - (1*delta)
 
-    if currentVote <= 0 then
+    if currentVote.time <= 0 then
         endVote()
     end
 end
