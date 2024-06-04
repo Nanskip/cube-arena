@@ -83,3 +83,53 @@ loadingScreen.hide = function(self)
     loadingText:setParent(nil) loadingText.Tick = nil loadingText = nil
     self = nil
 end
+
+Client.DidReceiveEvent = function(event)
+    if event.type == "start vote" then
+        voting.start(event.config)
+    end
+end
+
+Server.OnStart = function()
+    currentlyVoting = false
+
+    callVote = function()
+        currentVote = {
+            name = "Server vote",
+            description = "This vote was called by server."
+        }
+        
+        print("Vote called.")
+    end
+
+    sendVote = function(to)
+        local e = Event()
+        e.type = "start vote"
+        e.config = currentVote
+
+        e:SendTo(to)
+    end
+end
+
+Server.OnPlayerJoin = function(p)
+    local player = p
+
+    if not currentlyVoting then
+        currentlyVoting = true
+
+        callVote()
+    end
+
+    Timer(5, false, function()
+        sendVote(player)
+        print("Vote sent to " .. player.Username)
+    end)
+end
+
+Server.DidReceiveEvent = function(event)
+    if event.type == "vote" then
+        if event.variant ~= nil then
+            print(event.Sender.Username .. " voted for variant " .. event.variant)
+        end
+    end
+end
