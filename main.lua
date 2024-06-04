@@ -88,6 +88,8 @@ end
 Client.DidReceiveEvent = function(event)
     if event.type == "start vote" then
         voting.start(event.config)
+    elseif event.type == "player voted" then
+        voting.vote.buttons[event.variant].votes.Text = event.votes
     end
 end
 
@@ -101,15 +103,18 @@ Server.OnStart = function()
             variants = {
                 {
                     name = "Vote variant 1",
-                    image = nil
+                    image = nil,
+                    votes = 0
                 },
                 {
                     name = "Vote variant 2",
-                    image = nil
+                    image = nil,
+                    votes = 0
                 },
                 {
                     name = "Vote variant 3",
-                    image = nil
+                    image = nil,
+                    votes = 0
                 },
             }
         }
@@ -144,6 +149,13 @@ end
 Server.DidReceiveEvent = function(event)
     if event.type == "vote" then
         if event.variant ~= nil then
+            local e = Event()
+            e.type = "player voted"
+            e.variant = event.variant
+            currentVote.variants[event.variant].votes = currentVote.variants[event.variant].votes + 1
+            e.votes = currentVote.variants[event.variant].votes
+            e:SendTo(Players)
+
             print(event.Sender.Username .. " voted for variant " .. event.variant)
         end
     end

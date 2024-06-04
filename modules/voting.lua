@@ -86,7 +86,7 @@ voting.createVote = function(config)
                 e:SendTo(Server)
 
                 for i=1, #vote.buttons do
-                    vote.buttons[i].Color = Color(0, 0, 0, 0.25)
+                    vote.buttons[i].Color = Color(0, 0, 0, 0.2)
                     vote.buttons[i].onPress = nil
                 end
                 vote.buttons[i].Color = Color(50, 50, 50, 0.3)
