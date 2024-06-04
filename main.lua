@@ -97,7 +97,21 @@ Server.OnStart = function()
     callVote = function()
         currentVote = {
             name = "Server vote",
-            description = "This vote was called by server."
+            description = "This vote was called by server.",
+            variants = {
+                {
+                    name = "Vote variant 1",
+                    image = nil
+                },
+                {
+                    name = "Vote variant 2",
+                    image = nil
+                },
+                {
+                    name = "Vote variant 3",
+                    image = nil
+                },
+            }
         }
         
         print("Vote called.")
