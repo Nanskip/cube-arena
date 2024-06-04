@@ -90,6 +90,8 @@ Client.DidReceiveEvent = function(event)
         voting.start(event.config)
     elseif event.type == "player voted" then
         voting.vote.buttons[event.variant].votes.Text = event.votes
+    elseif event.type == "vote end" then
+        voting:remove()
     end
 end
 
@@ -100,6 +102,7 @@ Server.OnStart = function()
         currentVote = {
             name = "Server vote",
             description = "This vote was called by server.",
+            time = 60*60,
             variants = {
                 {
                     name = "Vote variant 1",
@@ -128,6 +131,17 @@ Server.OnStart = function()
         e.config = currentVote
 
         e:SendTo(to)
+    end
+
+    endVote = function()
+        currentVote = nil
+        currentlyVoting = false
+
+        local e = Event()
+        e.type = "vote end"
+        e:SendTo(Players)
+
+        print("Vote ended.")
     end
 end
 
@@ -158,5 +172,15 @@ Server.DidReceiveEvent = function(event)
 
             print(event.Sender.Username .. " voted for variant " .. event.variant)
         end
+    end
+end
+
+Server.Tick = function(dt)
+    local delta = dt*62.5
+
+    currentVote.time = currentVote.time - (1*delta)
+
+    if currentVote <= 0 then
+        endVote()
     end
 end
