@@ -68,6 +68,17 @@ loadFromGitHub = function(url, isCode)
     return ret
 end
 
+loadImage = function(url)
+    local image = loadFromGitHub(url, false)
+    Timer(3, false, function()
+        if image == nil then
+            image = loadFromGitHub("data/images/debug.png", false)
+        end
+    end)
+
+    return image
+end
+
 loadingScreen = {}
 
 loadingScreen.show = function()
