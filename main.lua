@@ -72,9 +72,7 @@ images = {}
 
 loadImage = function(name)
     if name == nil then
-        error("loadImage(): first argument should be a name.", 3)
-
-        return
+        name = "data/images/debug.png"
     end
     url = "https://raw.githubusercontent.com/Nanskip/cube-arena/main/" .. name
     local fileName = url:match("[^/]-$")
