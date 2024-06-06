@@ -35,7 +35,9 @@ Client.Tick = function(dt)
 end
 
 Screen.DidResize = function()
-    voting:updateVote()
+    if githubScriptsCount == nil then
+        voting:updateVote()
+    end
 end
 
 -- load everything
