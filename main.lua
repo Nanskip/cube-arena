@@ -52,7 +52,7 @@ end
 
 -- loading function
 loadFromGitHub = function(url, isCode)
-    url = "https://raw.githubusercontent.com/Nanskipp/cube-arena/main/" .. url
+    url = "https://raw.githubusercontent.com/Nanskip/cube-arena/main/" .. url
     local fileName = url:match("[^/]-$")
     loadingText.Text = "Loading: " .. fileName
     local ret = HTTP:Get(url, function(res)
@@ -64,19 +64,35 @@ loadFromGitHub = function(url, isCode)
 
         githubScriptsCount = githubScriptsCount + 1
         if isCode then return obj() else return obj end
-        end)
+    end)
     return ret
 end
 
-loadImage = function(url)
-    local image = loadFromGitHub(url, false)
-    Timer(3, false, function()
-        if image == nil then
-            image = loadFromGitHub("data/images/debug.png", false)
-        end
-    end)
+images = {}
 
-    return image
+loadImage = function(name)
+    if name == nil then
+        error("loadImage(): first argument should be a name.", 3)
+
+        return
+    end
+    url = "https://raw.githubusercontent.com/Nanskip/cube-arena/main/" .. name
+    local fileName = url:match("[^/]-$")
+
+    local image = HTTP:Get(url, function(res)
+        if res.StatusCode ~= 200 then
+            print("Error on image " .. fileName .." loading. Code: " .. res.StatusCode)
+
+            local image = loadImage("data/images/debug.png")
+
+            images["data/images/debug.png"] = image
+            images[name] = image
+        end
+
+        images[name] = res.Body
+    end)
+    
+    return images[name]
 end
 
 loadingScreen = {}

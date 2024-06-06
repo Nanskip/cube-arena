@@ -87,7 +87,7 @@ voting.createVote = function(config)
         vote.buttons[i].var = i
         vote.buttons[i].image = ui:createFrame(Color(255, 255, 255), {image = loadImage(config.variants[i].image)})
         vote.buttons[i].image.size = Number2(184/scale, 184/scale)
-        vote.buttons[i].image.pos = Number2(vote.buttons[i].pos.X + 5/scale, vote.buttons[i].pos.Y + (15+vote.buttons[i].text.Height)/scale)
+        vote.buttons[i].image.pos = Number2(vote.buttons[i].pos.X + 20/scale, vote.buttons[i].pos.Y + (5+vote.buttons[i].text.Height)/scale)
 
         vote.buttons[i].onPress = function(self)
             if not voting.voted then
@@ -170,6 +170,8 @@ voting.remove = function(self)
         voting.vote.buttons[i].text = nil
         voting.vote.buttons[i].votes:setParent(nil)
         voting.vote.buttons[i].votes = nil
+        voting.vote.buttons[i].image:setParent(nil)
+        voting.vote.buttons[i].image = nil
         voting.vote.buttons[i]:setParent(nil)
         voting.vote.buttons[i] = nil
     end
