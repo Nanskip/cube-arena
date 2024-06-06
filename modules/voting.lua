@@ -86,8 +86,8 @@ voting.createVote = function(config)
         vote.buttons[i].votes.pos = Number2(vote.buttons[i].pos.X+vote.buttons[i].Width-(vote.buttons[i].votes.Width+10)/scale, vote.buttons[i].pos.Y+5/scale)
         vote.buttons[i].var = i
         vote.buttons[i].image = ui:createFrame(Color(255, 255, 255), {image = loadImage(config.variants[i].image)})
-        vote.buttons[i].image.size = Number2(184/scale, 184/scale)
-        vote.buttons[i].image.pos = Number2(vote.buttons[i].pos.X + 20/scale, vote.buttons[i].pos.Y + (5+vote.buttons[i].text.Height)/scale)
+        vote.buttons[i].image.size = Number2(174/scale, 174/scale)
+        vote.buttons[i].image.pos = Number2(vote.buttons[i].pos.X + 18/scale, vote.buttons[i].pos.Y + (10+vote.buttons[i].text.Height)/scale)
 
         vote.buttons[i].onPress = function(self)
             if not voting.voted then

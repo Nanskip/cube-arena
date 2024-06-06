@@ -48,6 +48,8 @@ loadGitHub = function()
     player = loadFromGitHub("modules/player.lua", true)
     joysticks = loadFromGitHub("modules/joysticks.lua", true)
     voting = loadFromGitHub("modules/voting.lua", true)
+
+    images["data/images/debug.png"] = loadImage()
 end
 
 -- loading function
@@ -81,13 +83,10 @@ loadImage = function(name)
         if res.StatusCode ~= 200 then
             print("Error on image " .. fileName .." loading. Code: " .. res.StatusCode)
 
-            local image = loadImage("data/images/debug.png")
-
-            images["data/images/debug.png"] = image
-            images[name] = image
+            images[name] = images["data/images/debug.png"]
+        else
+            images[name] = res.Body
         end
-
-        images[name] = res.Body
     end)
     
     return images[name]
