@@ -173,7 +173,7 @@ Server.OnStart = function()
             end
         end
         print("Vote ended.")
-        print("Variant #" .. currentVote.winner .. " won.")
+        print("Winner: " .. currentVote.variants[currentVote.winner].name)
 
         currentVote = nil
         currentlyVoting = false
@@ -185,8 +185,7 @@ Server.OnStart = function()
 end
 
 Server.OnPlayerJoin = function(p)
-    local player = p
-
+    print(p.Username .. " joined the server.")
     if not currentlyVoting then
         currentlyVoting = true
 
@@ -196,17 +195,23 @@ Server.OnPlayerJoin = function(p)
     sendVote(Players)
 end
 
+Server.OnPlayerLeave = function(p)
+    print(p.Username .. " left the server.")
+end
+
 Server.DidReceiveEvent = function(event)
     if event.type == "vote" then
-        if event.variant ~= nil then
-            local e = Event()
-            e.type = "player voted"
-            e.variant = event.variant
-            currentVote.variants[event.variant].votes = currentVote.variants[event.variant].votes + 1
-            e.votes = currentVote.variants[event.variant].votes
-            e:SendTo(Players)
+        if currentlyVoting then
+            if event.variant ~= nil then
+                local e = Event()
+                e.type = "player voted"
+                e.variant = event.variant
+                currentVote.variants[event.variant].votes = currentVote.variants[event.variant].votes + 1
+                e.votes = currentVote.variants[event.variant].votes
+                e:SendTo(Players)
 
-            print(event.Sender.Username .. " voted for variant " .. event.variant)
+                print(event.Sender.Username .. " voted for variant " .. event.variant)
+            end
         end
     end
 end
